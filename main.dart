@@ -20,10 +20,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
-  static const Color primaryColor = Colors.deepPurple;
-  static const Color secondaryColor = Colors.white;
-  static const Color secondaryDarkColor = Color.fromARGB(249, 249, 249, 249);
+  Color primaryColor = Colors.deepPurple;
+  Color secondaryColor = Colors.white;
+  Color secondaryDarkColor = Color.fromARGB(249, 249, 249, 249);
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -52,14 +51,14 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   children: [
                     Text(
-                      vasa,
+                      upperNumber,
                       style: TextStyle(
                           fontSize: 60.0,
                           fontWeight: FontWeight.w500,
                           color: primaryColor),
                     ),
                     Text(
-                      text1,
+                      lowerNumber,
                       style: TextStyle(
                           fontSize: 40.0,
                           fontWeight: FontWeight.w500,
@@ -71,34 +70,34 @@ class _HomePageState extends State<HomePage> {
             ),
             Row(
               children: <Widget>[
-                Button("7"),
-                Button("8"),
-                Button("9"),
-                Button("+"),
+                button("7"),
+                button("8"),
+                button("9"),
+                button("+"),
               ],
             ),
             Row(
               children: <Widget>[
-                Button("4"),
-                Button("5"),
-                Button("6"),
-                Button("-"),
+                button("4"),
+                button("5"),
+                button("6"),
+                button("-"),
               ],
             ),
             Row(
               children: <Widget>[
-                Button("1"),
-                Button("2"),
-                Button("3"),
-                Button("x"),
+                button("1"),
+                button("2"),
+                button("3"),
+                button("x"),
               ],
             ),
             Row(
               children: <Widget>[
-                Button("C"),
-                Button("0"),
-                Button("="),
-                Button("/"),
+                button("C"),
+                button("0"),
+                button("="),
+                button("/"),
               ],
             ),
           ],
@@ -107,16 +106,11 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget Button(String val) {
+  Widget button(String val) {
     return Expanded(
       child: FlatButton(
         color: secondaryDarkColor,
-        //elevation: 0.5,
-        // shape: RoundedRectangleBorder(
-        //   borderRadius: BorderRadius.circular(30),
-        // ),
         padding: EdgeInsets.all(25.0),
-
         onPressed: () => btnClicked(val),
         child: Text(
           val,
@@ -126,33 +120,36 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  int first, second;
-  String res, text1 = "", text = "", re = "", vasa = "";
-  String opp = "", tr = "";
+  int firstNum, secondNum;
+  String firstT = "",
+      temp = "",
+      secondT = "",
+      lowerNumber = "",
+      uNum = "",
+      upperNumber = "";
+  String opp = "", lNum = "";
   void btnClicked(String btnText) {
     if (btnText == "C") {
-      res = "";
-      text1 = "";
-      re = "";
-      vasa = "";
-      text = "";
-      tr = "";
-      first = 0;
-      second = 0;
-      re = "";
+      firstT = "";
+      lowerNumber = "";
+      uNum = "";
+      upperNumber = "";
+      lNum = "";
+      firstNum = 0;
+      secondNum = 0;
       opp = "";
     } else if (btnText == "+" ||
         btnText == "-" ||
         btnText == "x" ||
         btnText == "/") {
-      first = int.parse(text);
-      res = "";
       opp = btnText;
-      re += btnText;
+      uNum += btnText;
+      firstNum = int.parse(firstT);
+      firstT = "";
+      secondT = "";
     } else if (btnText == "=") {
-      re = res;
-      first = int.parse(re);
-      tr = "";
+      uNum = lNum;
+      lNum = "";
     } else if ((opp == "+" || opp == "-" || opp == "x" || opp == "/") &&
         (btnText == "1" ||
             btnText == "2" ||
@@ -164,34 +161,32 @@ class _HomePageState extends State<HomePage> {
             btnText == "8" ||
             btnText == "9" ||
             btnText == "0")) {
-      re += btnText;
-      text += btnText;
-      second = int.parse(text);
+      uNum += btnText;
+      secondT += btnText;
+      secondNum = int.parse(secondT);
       if (opp == "+") {
-        res = (first + second).toString();
-        tr = res;
+        lNum = (firstNum + secondNum).toString();
+        firstT = lNum;
       }
       if (opp == "-") {
-        res = (first - second).toString();
-        tr = res;
-        //re = res;
+        lNum = (firstNum - secondNum).toString();
+        firstT = lNum;
       }
       if (opp == "x") {
-        res = (first * second).toString();
-        tr = res;
+        lNum = (firstNum * secondNum).toString();
+        firstT = lNum;
       }
       if (opp == "/") {
-        res = (first ~/ second).toString();
-        tr = res;
+        lNum = (firstNum ~/ secondNum).toString();
+        firstT = lNum;
       }
     } else {
-      re += btnText;
-      res = int.parse(text + btnText).toString();
+      uNum += btnText;
+      firstT += btnText;
     }
     setState(() {
-      vasa = re;
-      text = res;
-      text1 = tr;
+      upperNumber = uNum;
+      lowerNumber = lNum;
     });
   }
 }
